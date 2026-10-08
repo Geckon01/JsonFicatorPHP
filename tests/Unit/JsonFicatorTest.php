@@ -23,7 +23,7 @@ final class JsonFicatorTest extends TestCase
 
         $jsonFicator = new JsonFicator($provider);
 
-        $result = $jsonFicator->toJson('Колодки на ниссан лиф +799999999', [
+        $result = $jsonFicator->toJson('Brake pads for Nissan Leaf +799999999', [
             'carBrand' => 'string?',
             'carModel' => 'string?',
             'phoneNumber' => 'string',
@@ -49,7 +49,7 @@ final class JsonFicatorTest extends TestCase
         $jsonFicator = new JsonFicator($provider);
 
         /** @var VinRequest $result */
-        $result = $jsonFicator->toModel('Колодки на ниссан лиф +799999999', VinRequest::class);
+        $result = $jsonFicator->toModel('Brake pads for Nissan Leaf +799999999', VinRequest::class);
 
         $this->assertInstanceOf(VinRequest::class, $result);
         $this->assertSame('Nissan', $result->brand);
@@ -70,7 +70,7 @@ final class JsonFicatorTest extends TestCase
         $jsonFicator = new JsonFicator($provider);
 
         /** @var NestedRequest $result */
-        $result = $jsonFicator->toModel('Колодки на ниссан лиф', NestedRequest::class);
+        $result = $jsonFicator->toModel('Brake pads for Nissan Leaf', NestedRequest::class);
 
         $this->assertInstanceOf(NestedRequest::class, $result);
         $this->assertInstanceOf(Car::class, $result->car);
@@ -90,7 +90,7 @@ final class JsonFicatorTest extends TestCase
 
         $jsonFicator = new JsonFicator($provider);
 
-        $result = $jsonFicator->toJson('Колодки на Nissan Leaf', [
+        $result = $jsonFicator->toJson('Brake pads for Nissan Leaf', [
             'brand' => 'string',
             'model' => 'string',
             'year' => 'int?',

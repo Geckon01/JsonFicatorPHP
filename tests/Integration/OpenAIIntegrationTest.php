@@ -47,7 +47,7 @@ final class OpenAIIntegrationTest extends TestCase
 
         $jsonFicator = new JsonFicator($provider);
 
-        $result = $jsonFicator->toJson('Колодки на ниссан лиф +799999999', [
+        $result = $jsonFicator->toJson('Brake pads for Nissan Leaf +799999999', [
             'carBrand' => 'string?',
             'carModel' => 'string?',
             'phoneNumber' => 'string?',
@@ -74,7 +74,7 @@ final class OpenAIIntegrationTest extends TestCase
 
         $jsonFicator = new JsonFicator($provider);
 
-        $result = $jsonFicator->toJson('Колодки на Nissan Leaf', [
+        $result = $jsonFicator->toJson('Brake pads for Nissan Leaf', [
             'brand' => 'string',
             'model' => 'string',
             'year' => 'int?',

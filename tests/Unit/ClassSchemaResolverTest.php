@@ -53,7 +53,7 @@ final class ClassSchemaResolverTest extends TestCase
 
         $brand = $schema->getField('brand');
         $this->assertNotNull($brand);
-        $this->assertSame('Марка автомобиля', $brand->description);
+        $this->assertSame('Car brand', $brand->description);
 
         $required = $schema->getField('requiredNullable');
         $this->assertNotNull($required);

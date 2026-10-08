@@ -11,7 +11,7 @@ use JsonFicator\IJsonFicatorModel;
 
 class DescribedModel implements IJsonFicatorModel
 {
-    #[JsonFicatorDescription('Марка автомобиля')]
+    #[JsonFicatorDescription('Car brand')]
     public ?string $brand;
 
     #[JsonFicatorRequired]
