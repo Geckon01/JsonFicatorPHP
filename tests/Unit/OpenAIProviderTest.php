@@ -12,10 +12,21 @@ final class OpenAIProviderTest extends TestCase
 {
     public function testThrowsWithoutApiKey(): void
     {
-        $this->expectException(ProviderException::class);
-        $this->expectExceptionMessage('OpenAI API key is required');
+        // Temporarily remove env key so the constructor has nothing to fall back to.
+        $original = $_SERVER['JSONFICATOR_OPENAI_API_KEY'] ?? null;
+        unset($_SERVER['JSONFICATOR_OPENAI_API_KEY'], $_ENV['JSONFICATOR_OPENAI_API_KEY']);
 
-        new OpenAIProvider();
+        try {
+            $this->expectException(ProviderException::class);
+            $this->expectExceptionMessage('OpenAI API key is required');
+
+            new OpenAIProvider();
+        } finally {
+            if ($original !== null) {
+                $_SERVER['JSONFICATOR_OPENAI_API_KEY'] = $original;
+                $_ENV['JSONFICATOR_OPENAI_API_KEY'] = $original;
+            }
+        }
     }
 
     public function testThrowsWithEmptyApiKey(): void

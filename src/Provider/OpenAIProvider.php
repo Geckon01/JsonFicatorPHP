@@ -10,10 +10,6 @@ use JsonFicator\Prompt\PromptBuilder;
 use JsonFicator\Schema\JsonFicatorSchema;
 use JsonFicator\Schema\JsonSchemaConverter;
 use OpenAI\Client;
-use OpenAI\Responses\ChatResponse;
-use OpenAI\Types\Chat\ChatCompletion;
-use OpenAI\Types\Chat\ChatMessage;
-use OpenAI\Types\Chat\ResponseFormat;
 
 /**
  * LLM provider backed by the OpenAI API (or any OpenAI-compatible endpoint).
@@ -83,23 +79,31 @@ final class OpenAIProvider implements LLMProviderInterface
 
         $model = $options?->model ?? $this->defaultModel;
 
+        $parameters = [
+            'model' => $model,
+            'messages' => [
+                ['role' => 'system', 'content' => $systemPrompt],
+                ['role' => 'user', 'content' => $userMessage],
+            ],
+            'response_format' => [
+                'type' => 'json_schema',
+                'json_schema' => [
+                    'name' => 'extraction',
+                    'schema' => $jsonSchema,
+                    'strict' => true,
+                ],
+            ],
+        ];
+
+        if ($options?->temperature !== null) {
+            $parameters['temperature'] = $options->temperature;
+        }
+        if ($options?->maxTokens !== null) {
+            $parameters['max_tokens'] = $options->maxTokens;
+        }
+
         try {
-            $response = $this->client->chat()->create(
-                ChatCompletion::create(
-                    model: $model,
-                    messages: [
-                        ChatMessage::createSystem($systemPrompt),
-                        ChatMessage::createUser($userMessage),
-                    ],
-                    responseFormat: ResponseFormat::createJsonSchema(
-                        name: 'extraction',
-                        schema: $jsonSchema,
-                        strict: true,
-                    ),
-                    temperature: $options?->temperature,
-                    maxTokens: $options?->maxTokens,
-                ),
-            );
+            $response = $this->client->chat()->create($parameters);
         } catch (\Throwable $e) {
             throw new ProviderException(
                 'OpenAI API request failed: ' . $e->getMessage(),
@@ -113,7 +117,7 @@ final class OpenAIProvider implements LLMProviderInterface
     /**
      * @return array<string, mixed>
      */
-    private function extractContent(ChatResponse $response): array
+    private function extractContent(\OpenAI\Responses\Chat\CreateResponse $response): array
     {
         $message = $response->choices[0]->message;
 
