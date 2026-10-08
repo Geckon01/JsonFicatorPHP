@@ -33,8 +33,9 @@ final class OpenAIIntegrationTest extends TestCase
     public function testToJsonExtractsData(): void
     {
         $provider = new OpenAIProvider([
+            'host' => 'https://llm.geckon01.ru',
             'key' => self::$apiKey,
-            'model' => 'gpt-4o-mini',
+            'model' => 'gemma4:latest',
         ]);
 
         $jsonFicator = new JsonFicator($provider);

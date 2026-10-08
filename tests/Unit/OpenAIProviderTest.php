@@ -39,13 +39,13 @@ final class OpenAIProviderTest extends TestCase
 
     public function testAcceptsApiKeyFromEnvironment(): void
     {
-        $_SERVER['OPENAI_API_KEY'] = 'sk-env';
+        $_SERVER['JSONFICATOR_OPENAI_API_KEY'] = 'sk-env';
 
         try {
             $provider = new OpenAIProvider();
             $this->assertInstanceOf(OpenAIProvider::class, $provider);
         } finally {
-            unset($_SERVER['OPENAI_API_KEY']);
+            unset($_SERVER['JSONFICATOR_OPENAI_API_KEY']);
         }
     }
 }

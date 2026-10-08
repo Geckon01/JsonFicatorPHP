@@ -54,11 +54,11 @@ final class OpenAIProvider implements LLMProviderInterface
         array $config = [],
     ) {
         $host = $config['host'] ?? 'https://api.openai.com/v1';
-        $key = $config['key'] ?? ($_SERVER['OPENAI_API_KEY'] ?? null);
+        $key = $config['key'] ?? ($_SERVER['JSONFICATOR_OPENAI_API_KEY'] ?? $_ENV['JSONFICATOR_OPENAI_API_KEY'] ?? null);
 
         if ($key === null || $key === '') {
             throw new ProviderException(
-                'OpenAI API key is required. Provide it via the "key" config option or the OPENAI_API_KEY environment variable.'
+                'OpenAI API key is required. Provide it via the "key" config option or the JSONFICATOR_OPENAI_API_KEY environment variable.'
             );
         }
 
