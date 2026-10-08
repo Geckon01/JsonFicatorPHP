@@ -116,7 +116,7 @@ $result = $jsonFicator->toModel(
 ```php
 $provider = new OpenAIProvider([
     'host'   => 'https://api.openai.com/v1', // or any OpenAI-compatible endpoint
-    'key'    => 'sk-...',                    // or set OPENAI_API_KEY env var
+    'key'    => 'sk-...',                    // or set JSONFICATOR_OPENAI_API_KEY env var
     'model'  => 'gpt-4o',
     'strict' => true,                        // JSON Schema strict mode
 ]);
